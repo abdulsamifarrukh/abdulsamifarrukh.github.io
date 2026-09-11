@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sami — 90-Day Campaign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2A3A;        /* deep teal-navy: the base */
+  --ink-2:#163B50;      /* raised surface */
+  --ink-3:#1E4A63;      /* borders on dark */
+  --sand:#F1E9D8;       /* primary text on dark */
+  --sand-2:#C9BFA9;     /* secondary text */
+  --amber:#F5A524;      /* ONE signal colour: progress, today, gates */
+  --amber-2:#7A4E0B;
+  --paper:#F7F3EA;      /* light reading surface */
+  --paper-2:#EAE3D3;
+  --ink-on-paper:#14303F;
+  --muted-on-paper:#5B6B74;
+  --ok:#3FBF8F;
+  --r:10px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--ink);color:var(--sand);font-family:"Sora",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--amber)}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px 80px}
+
+/* ---------- console (hero) ---------- */
+.console{padding:26px 0 18px}
+.console h1{font-size:26px;line-height:1.15;margin:0 0 6px;font-weight:800;letter-spacing:-.01em}
+.console .sub{color:var(--sand-2);margin:0 0 18px;font-size:15px}
+.dayline{display:flex;align-items:baseline;gap:12px;margin:0 0 6px}
+.dayline .big{font-size:64px;font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--amber)}
+.dayline .lab{font-size:15px;color:var(--sand-2)}
+.runway{position:relative;height:54px;margin:14px 0 8px}
+.runway .bar{position:absolute;left:0;right:0;top:22px;height:10px;background:var(--ink-3);border-radius:5px;overflow:hidden}
+.runway .fill{position:absolute;left:0;top:0;bottom:0;background:var(--amber);border-radius:5px}
+.runway .gate{position:absolute;top:8px;width:2px;height:38px;background:var(--sand-2)}
+.runway .gate span{position:absolute;top:-16px;left:-30px;width:62px;text-align:center;font-size:11px;color:var(--sand-2);white-space:nowrap}
+.runway .gate.hard{background:var(--amber)}
+.runway .gate.hard span{color:var(--amber)}
+.runway .me{position:absolute;top:14px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:var(--amber);border:3px solid var(--ink);box-shadow:0 0 0 2px var(--amber)}
+.gates{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:14px 0 0;font-size:13px;color:var(--sand-2)}
+.gates b{display:block;color:var(--sand);font-size:15px}
+.today{margin:22px 0 0;background:var(--ink-2);border:1px solid var(--ink-3);border-radius:var(--r);padding:14px}
+.today h2{margin:0 0 2px;font-size:16px}
+.today p{margin:0 0 12px;color:var(--sand-2);font-size:14px}
+.tally{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tally button{appearance:none;border:1px solid var(--ink-3);background:var(--ink);color:var(--sand);border-radius:var(--r);padding:12px 6px 10px;font-family:inherit;cursor:pointer;text-align:center}
+.tally button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.tally .n{display:block;font-size:30px;font-weight:800;line-height:1;color:var(--amber)}
+.tally .t{display:block;font-size:12px;color:var(--sand-2);margin-top:6px;line-height:1.3}
+.tally button.done{border-color:var(--ok)}
+.tally button.done .n{color:var(--ok)}
+.streak{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px;color:var(--sand-2)}
+.streak b{color:var(--sand)}
+.undo{appearance:none;border:0;background:none;color:var(--sand-2);font-family:inherit;font-size:12px;text-decoration:underline;cursor:pointer;padding:0}
+.save{font-size:12px;color:var(--sand-2);margin-top:10px}
+.why{margin-top:14px}
+.why textarea{width:100%;min-height:64px;background:var(--ink);border:1px solid var(--ink-3);border-radius:var(--r);color:var(--sand);font-family:inherit;font-size:15px;padding:10px;resize:vertical}
+.why label{font-size:13px;color:var(--sand-2);display:block;margin-bottom:6px}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:5;background:var(--ink);border-bottom:1px solid var(--ink-3);margin:0 -18px;padding:8px 18px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width: none;-ms-overflow-style: none;}
+.nav a{display:inline-block;color:var(--sand-2);text-decoration:none;font-size:13px;padding:6px 10px;border-radius:999px;margin-right:2px}
+.nav a:hover,.nav a:focus-visible{color:var(--sand);background:var(--ink-2);outline:none}
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- sections ---------- */
+section{margin-top:44px}
+section > h2{font-size:22px;line-height:1.2;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
+section > .lead{margin:0 0 16px;color:var(--sand-2);font-size:15px}
+h3{font-size:16px;margin:24px 0 8px;font-weight:600}
+p{margin:0 0 12px}
+.page{background:var(--paper);color:var(--ink-on-paper);border-radius:var(--r);padding:16px}
+.page p{color:var(--ink-on-paper)}
+.page .dim{color:var(--muted-on-paper)}
+.page h3{color:var(--ink-on-paper)}
+ul.plain{margin:0 0 12px 18px;padding:0}
+ul.plain li{margin:0 0 6px}
+.note{border-left:3px solid var(--amber);padding:6px 12px;margin:14px 0;color:var(--sand);background:var(--ink-2);border-radius:0 var(--r) var(--r) 0;font-size:15px}
+.page .note{background:var(--paper-2);color:var(--ink-on-paper)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px;margin:8px 0 14px}
+.kv dt{color:var(--sand-2)}
+.kv dd{margin:0}
+.page .kv dt{color:var(--muted-on-paper)}
+
+/* ---------- checklists ---------- */
+.list{margin:0;padding:0;list-style:none}
+.chk{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--ink-3);cursor:pointer}
+.page .chk{border-color:var(--paper-2)}
+.chk:last-child{border-bottom:0}
+.chk input{appearance:none;flex:0 0 auto;width:22px;height:22px;margin:2px 0 0;border:2px solid var(--sand-2);border-radius:6px;background:transparent;cursor:pointer;position:relative}
+.page .chk input{border-color:var(--muted-on-paper)}
+.chk input:checked{background:var(--amber);border-color:var(--amber)}
+.chk input:checked::after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid var(--ink);border-width:0 3px 3px 0;transform:rotate(45deg)}
+.chk input:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.chk .txt{flex:1}
+.chk .txt small{display:block;color:var(--sand-2);font-size:13px;margin-top:2px}
+.page .chk .txt small{color:var(--muted-on-paper)}
+.chk input:checked ~ .txt{opacity:.55;text-decoration:line-through}
+.group{margin-top:18px}
+.group h3{margin-top:0;display:flex;justify-content:space-between;align-items:baseline}
+.group h3 .pct{font-size:13px;color:var(--amber);font-weight:500}
+.cost{display:inline-block;font-size:12px;color:var(--amber);border:1px solid var(--amber-2);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle}
+
+/* ---------- templates ---------- */
+.tpl{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:var(--r);padding:12px 14px;margin:10px 0 16px;font-size:14.5px;white-space:pre-wrap}
+.tpl b{color:var(--amber);font-weight:600}
+.copy{appearance:none;border:1px solid var(--ink-3);background:var(--ink);color:var(--sand-2);border-radius:999px;padding:4px 10px;font-family:inherit;font-size:12px;cursor:pointer;margin-top:8px}
+.copy:focus-visible{outline:2px solid var(--amber)}
+
+/* ---------- diagrams ---------- */
+.fig{margin:14px 0 18px}
+.fig svg{width:100%;height:auto;display:block}
+.fig figcaption{font-size:13px;color:var(--sand-2);margin-top:6px}
+
+/* ---------- weeks ---------- */
+.week{border:1px solid var(--ink-3);border-radius:var(--r);padding:12px 14px;margin:10px 0}
+.week h3{margin:0 0 4px;font-size:15px}
+.week .when{font-size:13px;color:var(--sand-2);margin-bottom:8px}
+.week ul{margin:0 0 0 18px;padding:0;font-size:15px}
+.week li{margin-bottom:4px}
+.gate-card{border:1px solid var(--amber-2);background:linear-gradient(0deg,rgba(245,165,36,.06),rgba(245,165,36,.06));border-radius:var(--r);padding:12px 14px;margin:10px 0}
+.gate-card h3{margin:0 0 4px;color:var(--amber);font-size:15px}
+.gate-card p{margin:0;font-size:15px}
+
+/* ---------- numbers log ---------- */
+.form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.form label{font-size:12px;color:var(--sand-2);display:block}
+.form input{width:100%;background:var(--ink-2);border:1px solid var(--ink-3);border-radius:8px;color:var(--sand);font-family:inherit;font-size:16px;padding:8px}
+.form input:focus-visible{outline:2px solid var(--amber)}
+.btn{appearance:none;border:0;background:var(--amber);color:var(--ink);font-family:inherit;font-weight:700;font-size:15px;padding:10px 16px;border-radius:999px;cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--sand);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--sand-2);border:1px solid var(--ink-3);font-weight:500}
+#weekTable{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;min-width:360px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--ink-3)}
+th{color:var(--sand-2);font-weight:500;font-size:12px}
+td.rate{color:var(--amber)}
+.bars{display:flex;gap:6px;align-items:flex-end;height:80px;margin:10px 0 4px}
+.bars div{flex:1;background:var(--ink-3);border-radius:4px 4px 0 0;position:relative;min-height:2px}
+.bars div.i{background:var(--amber)}
+.empty{color:var(--sand-2);font-size:14px;padding:10px 0}
+
+/* ---------- offers ---------- */
+.offer{border-top:2px solid var(--amber);padding-top:10px;margin:18px 0}
+.offer h3{margin:0 0 4px}
+.offer .meta{font-size:13px;color:var(--sand-2);margin-bottom:8px}
+
+/* ---------- targets ---------- */
+.region{margin-top:16px}
+.region h3{margin:0 0 4px}
+.region .list .chk{padding:7px 0}
+
+.lock{position:fixed;inset:0;z-index:50;background:var(--ink);display:flex;align-items:center;justify-content:center;padding:24px}
+.lock .box{width:100%;max-width:360px}
+.lock h1{font-size:22px;margin:0 0 6px}
+.lock p{color:var(--sand-2);font-size:14px;margin:0 0 16px}
+.lock input{width:100%;background:var(--ink-2);border:1px solid var(--ink-3);border-radius:var(--r);color:var(--sand);font-family:inherit;font-size:28px;letter-spacing:.35em;text-align:center;padding:12px;margin-bottom:10px}
+.lock input:focus-visible{outline:2px solid var(--amber)}
+.lock .err{color:var(--amber);font-size:13px;min-height:18px;margin-bottom:8px}
+.lock .btn{width:100%}
+.lock .undo{display:block;margin:14px auto 0}
+body.locked .wrap{display:none}
+.foot{margin-top:50px;color:var(--sand-2);font-size:13px;border-top:1px solid var(--ink-3);padding-top:16px}
+.foot .btn{margin-top:8px}
+.sync{border:1px solid var(--ink-3);border-radius:var(--r);padding:12px 14px;margin-top:14px}
+.sync .form input{font-size:14px}
+</style>
+</head>
+<body class="locked">
+<div class="lock" id="lock" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+  <div class="box">
+    <h1 id="lockTitle">Enter PIN</h1>
+    <p id="lockMsg">Your progress is encrypted with your PIN. Nothing in this page's code can reveal it.</p>
+    <input type="password" id="pin1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="PIN" maxlength="12">
+    <input type="password" id="pin2" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="Confirm PIN" maxlength="12" style="display:none" placeholder="again">
+    <div class="err" id="lockErr"></div>
+    <button class="btn" id="lockBtn">Unlock</button>
+    <button class="undo" id="lockForgot" style="display:none">Forgot PIN — wipe this device and start over</button>
+  </div>
+</div>
+<div class="wrap">
+
+<!-- ================= CONSOLE ================= -->
+<header class="console" id="top">
+  <h1>Sami's 90-day campaign</h1>
+  <p class="sub">Nobody else has ACE + MQ + API Connect + CP4i + Sterling OMS + Sterling B2B with twelve years behind it. This is a distribution problem, not a worth problem. Make sure the right people find out.</p>
+
+  <div class="dayline"><span class="big" id="dayNum">1</span><span class="lab">of 90 · started <span id="startLabel">11 Sep 2026</span> · <button class="undo" id="editStart">change</button></span></div>
+
+  <div class="runway" aria-label="Campaign runway with decision gates">
+    <div class="bar"><div class="fill" id="fill" style="width:1%"></div></div>
+    <div class="gate" style="left:50%"><span>Gate 1 · day 45</span></div>
+    <div class="gate hard" style="left:83.3%"><span>Gate 2 · day 75</span></div>
+    <div class="me" id="me" style="left:1%"></div>
+  </div>
+  <div class="gates">
+    <div><b id="toG1">44 days</b>to Gate 1</div>
+    <div><b id="toG2">74 days</b>to Gate 2</div>
+    <div><b id="runwayLeft">~4 mo</b>runway floor</div>
+  </div>
+
+  <div class="today">
+    <h2>Today's three</h2>
+    <p>Tap each time you finish one. These three, every working day, are the whole campaign.</p>
+    <div class="tally">
+      <button id="tO" data-k="o" data-goal="5"><span class="n">0</span><span class="t">of 5 outreach messages</span></button>
+      <button id="tA" data-k="a" data-goal="3"><span class="n">0</span><span class="t">of 3 quality applications</span></button>
+      <button id="tL" data-k="l" data-goal="1"><span class="n">0</span><span class="t">hour of building or study</span></button>
+    </div>
+    <div class="streak"><span>Streak: <b id="streak">0 days</b> · Total sent: <b id="totalO">0</b></span><button class="undo" id="undoTap">undo last tap</button></div>
+    <div class="why">
+      <label for="whyBox">Why I'm doing this (read it before you open LinkedIn)</label>
+      <textarea id="whyBox" placeholder="Write it in your own words. Who is counting on you. What December looks like when this works."></textarea>
+    </div>
+    <div class="save" id="saveState">Progress saves automatically on this device.</div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Sections">
+  <a href="#s1">Read first</a><a href="#s2">Tracks</a><a href="#s3">Week 1</a><a href="#s4">Skills</a><a href="#s5">Demo</a><a href="#s6">Outreach</a><a href="#s7">Consulting</a><a href="#s8">90 days</a><a href="#s9">Resume</a><a href="#s10">Negotiate</a><a href="#s11">Numbers</a><a href="#s12">Rules</a>
+</nav>
+
+<!-- ================= 1 READ FIRST ================= -->
+<section id="s1">
+  <h2>Read this first</h2>
+  <p class="lead">The situation, the math, and why the plan is shaped the way it is.</p>
+
+  <div class="page">
+    <h3>Where you are</h3>
+    <p>Laid off from a US H-1B role in June 2026. Back in Pakistan since August. The promised partner-company role fell through. Now on leave without pay: no salary, no assets, no benefits, possibly still bound by an employment contract. Runway: 4–6 months. Family can relocate quickly. Target: whichever pays — a senior Solutions Architect seat or your own consulting.</p>
+
+    <h3>Why you will win this</h3>
+    <p>Most integration people know IBM ACE <em>or</em> Sterling. You have both, plus the API layer, plus retail, banking and telecom domains, plus a Practice Head title. The Gulf is short of exactly this. And the market is moving toward the thing you already do: putting a governed, callable surface in front of legacy systems, except now the caller is an AI agent instead of a mobile app. Same plumbing. New buyer.</p>
+
+    <h3>The math that shapes everything</h3>
+    <p>Gulf senior-architecture hiring runs roughly 4–10 weeks from application to offer, then 4–8 weeks for visa and onboarding. Start applying this week and a realistic start date is December to February. That fits inside a 4–6 month runway with margin. Wait until the demo is polished or the cloud exam is passed, and the start date slides into the zone where the money runs out.</p>
+    <p class="dim">So: applications begin now. Skills and demo run in parallel, never instead.</p>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Timeline: apply now, offer in 4 to 10 weeks, visa 4 to 8 weeks, start December to February, all inside the 4 to 6 month runway">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#C9BFA9"/></marker></defs>
+      <!-- runway band -->
+      <rect x="40" y="30" width="520" height="22" rx="4" fill="#1E4A63"/>
+      <rect x="560" y="30" width="100" height="22" rx="4" fill="#1E4A63" opacity=".45"/>
+      <text x="40" y="22" fill="#C9BFA9" font-size="12" font-family="Sora,sans-serif">Runway floor: 4 months</text>
+      <text x="660" y="22" fill="#C9BFA9" font-size="12" text-anchor="end" font-family="Sora,sans-serif">…to 6 months</text>
+      <!-- month ticks -->
+      <g fill="#C9BFA9" font-size="11" font-family="Sora,sans-serif" text-anchor="middle">
+        <text x="40" y="68">Sep</text><text x="170" y="68">Oct</text><text x="300" y="68">Nov</text><text x="430" y="68">Dec</text><text x="560" y="68">Jan</text><text x="660" y="68">Feb</text>
+      </g>
+      <!-- phases -->
+      <rect x="40" y="90" width="20" height="26" rx="4" fill="#F5A524"/>
+      <text x="70" y="108" fill="#F1E9D8" font-size="13" font-family="Sora,sans-serif">Apply now (this week)</text>
+      <rect x="60" y="130" width="230" height="26" rx="4" fill="#163B50" stroke="#F5A524"/>
+      <text x="70" y="148" fill="#F1E9D8" font-size="13" font-family="Sora,sans-serif">Interviews → offer · 4–10 weeks</text>
+      <rect x="290" y="170" width="190" height="26" rx="4" fill="#163B50" stroke="#F5A524"/>
+      <text x="300" y="188" fill="#F1E9D8" font-size="13" font-family="Sora,sans-serif">Visa + onboarding · 4–8 weeks</text>
+      <rect x="430" y="210" width="230" height="26" rx="4" fill="#F5A524"/>
+      <text x="440" y="228" fill="#0E2A3A" font-size="13" font-weight="700" font-family="Sora,sans-serif">Start · Dec to Feb, inside runway</text>
+      <!-- gates -->
+      <line x1="235" y1="30" x2="235" y2="240" stroke="#C9BFA9" stroke-dasharray="4 4"/>
+      <text x="240" y="245" fill="#C9BFA9" font-size="11" font-family="Sora,sans-serif">Gate 1 · day 45</text>
+      <line x1="365" y1="30" x2="365" y2="240" stroke="#F5A524" stroke-dasharray="4 4"/>
+      <text x="370" y="245" fill="#F5A524" font-size="11" font-family="Sora,sans-serif">Gate 2 · day 75</text>
+    </svg>
+    <figcaption>Why the plan front-loads applications: the offer-to-start lag is the part you can't compress.</figcaption>
+  </figure>
+
+  <div class="note">Is skill the real problem? About a third of it. Positioning and distribution are the rest. You are legible today only as "an IBM person" to people who already run IBM. The plan fixes that first, then adds two narrow skills that make your existing stack readable to a much bigger set of buyers.</div>
+</section>
+
+<!-- ================= 2 TRACKS ================= -->
+<section id="s2">
+  <h2>Three tracks, one order</h2>
+  <p class="lead">Effort split for the next 90 days. Run all three; weight them like this.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 700 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Effort split: Gulf salaried role 70 percent, remote or Pakistan insurance 20 percent, consulting 10 percent">
+      <rect x="20" y="20" width="462" height="44" rx="6" fill="#F5A524"/>
+      <text x="34" y="48" fill="#0E2A3A" font-size="15" font-weight="700" font-family="Sora,sans-serif">Track A · Gulf salaried SA role · 70%</text>
+      <rect x="20" y="78" width="132" height="44" rx="6" fill="#1E4A63"/>
+      <text x="34" y="106" fill="#F1E9D8" font-size="14" font-family="Sora,sans-serif">Track B · 20%</text>
+      <text x="164" y="106" fill="#C9BFA9" font-size="13" font-family="Sora,sans-serif">Remote contract or Pakistan role · insurance, not the plan</text>
+      <rect x="20" y="136" width="66" height="44" rx="6" fill="#1E4A63"/>
+      <text x="34" y="164" fill="#F1E9D8" font-size="14" font-family="Sora,sans-serif">C · 10%</text>
+      <text x="98" y="164" fill="#C9BFA9" font-size="13" font-family="Sora,sans-serif">Consulting · build the offers, take what lands, don't chase yet</text>
+    </svg>
+  </figure>
+
+  <div class="page">
+    <h3>Track A — Gulf salaried role</h3>
+    <p>Highest expected value on every axis: it pays, it moves the family to a deep IBM market, and it is the better base for consulting later. Gulf clients trust a consultant with a Gulf address and bank account far more than one in Islamabad. Order of attack: KSA first (most CP4i demand, straightforward family visa), then UAE, then Qatar. Widen to Bahrain, Kuwait, Oman at Gate 1 if needed.</p>
+    <h3>Track B — insurance</h3>
+    <p>Remote contract via Upwork, Toptal, Deel or Remote.com; or a Pakistan enterprise role. Keep applications flowing but don't let a mediocre local offer distract you before day 75. If you do take one, insist on a 30-day notice period in writing so a Gulf offer can still be accepted.</p>
+    <h3>Track C — consulting</h3>
+    <p>Write the three productized offers and publish the demo. Take small engagements that arrive. It becomes primary only if Track A stalls, or once you're settled in the Gulf and can run it from there.</p>
+  </div>
+</section>
+
+<!-- ================= 3 WEEK 1 ================= -->
+<section id="s3">
+  <h2>Week 1 — start now</h2>
+  <p class="lead">Four groups. The paperwork ones take the longest, so they go first.</p>
+
+  <div class="group" data-group>
+    <h3>Money and employment status <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="w1-hr"><span class="txt">Email HR: am I still employed? Is there an end date? Am I allowed outside contract work during LWOP? What is owed — final settlement, gratuity, provident fund, EOBI, leave encashment?<small>Get it in writing. If they won't commit to a return date, push for a clean separation with settlement instead of indefinite limbo.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-atty"><span class="txt">Book a free consult with a US immigration/employment attorney<small>Ask: (1) back wages if I was benched before a bona fide termination, (2) employer's obligation for return transportation, (3) severance/PTO owed, (4) am I H-1B cap-exempt and for how long — so a US employer can petition without the lottery.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-runway"><span class="txt">Write the runway number: monthly burn, cash on hand, months left, floor date<small>Everything below is prioritized against that date.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-cut"><span class="txt">Cut recurring spend to essentials this week</span></label></li>
+    </ul>
+  </div>
+
+  <div class="group" data-group>
+    <h3>Gulf move prep (starts now, not after an offer) <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="w1-att"><span class="txt">Start attestation of both degree certificates: HEC → Ministry of Foreign Affairs → destination embassy<small>Takes weeks in Pakistan. Most common reason a Gulf start date slips by a month.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-police"><span class="txt">Apply for police character certificate</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-pass"><span class="txt">Check every family passport has 6+ months validity; renew now if not</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-fam"><span class="txt">Attest marriage certificate and children's birth certificates (family visa needs them)</span></label></li>
+    </ul>
+  </div>
+
+  <div class="group" data-group>
+    <h3>Positioning <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="w1-li"><span class="txt">Rewrite LinkedIn headline with the keywords recruiters search<small>IBM App Connect Enterprise (ACE/IIB) | MQ | API Connect | DataPower | CP4i | Sterling OMS &amp; B2B Integrator | Integration Architect</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-otw"><span class="txt">Turn on Open to Work; set location to Riyadh, Dubai, Doha, Islamabad + Remote</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-hdr"><span class="txt">Add to resume header: "Available immediately — open to KSA, UAE, Qatar relocation; remote contracts worldwide"</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-cv"><span class="txt">Make resume v2 (see the Resume section) — Gulf, Pakistan, and US-remote versions</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-sheet"><span class="txt">Create the outreach spreadsheet: who, company, date, channel, reply, next step</span></label></li>
+    </ul>
+  </div>
+
+  <div class="group" data-group>
+    <h3>First shots <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="w1-sl"><span class="txt">Message your Systems Limited leadership about a KSA/UAE placement or rehire<small>You were their regional IBM Practice Head. Warmest lead you have. Template in Outreach.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-gbm"><span class="txt">Apply to and DM Gulf Business Machines (IBM's main GCC alliance partner)</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-10"><span class="txt">Ten Gulf applications before Sunday — every live IBM/CP4i/API Connect role in Riyadh, Jeddah, Dubai, Doha<small>Ask about visa sponsorship in the first line. Use exact stack keywords.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="w1-30"><span class="txt">Tell 30 people exactly what you want<small>Not "open to opportunities." Say: "I'm looking for an IBM ACE/Sterling integration architect role in the GCC, or a remote contract. Who do you know?"</small></span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 4 SKILLS ================= -->
+<section id="s4">
+  <h2>Skills — what to add and what to skip</h2>
+  <p class="lead">Not "AI" and not "cloud" in general. Two narrow things that make your stack legible to more buyers, plus free widening.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three tiers: Tier 1 agentic integration on your own stack, free, weeks 1 to 6. Tier 2 one cloud, 100 to 170 dollars, weeks 4 to 12. Tier 3 free widening: Boomi, MuleSoft, Kafka, ongoing.">
+      <g font-family="Sora,sans-serif">
+        <rect x="20" y="20" width="660" height="64" rx="8" fill="#F5A524"/>
+        <text x="36" y="46" fill="#0E2A3A" font-size="15" font-weight="700">Tier 1 · Agentic integration on your own stack + DataPower</text>
+        <text x="36" y="68" fill="#0E2A3A" font-size="13">≈ $0 · weeks 1–6 · this is what gets you interviews</text>
+        <rect x="20" y="98" width="660" height="64" rx="8" fill="#163B50" stroke="#F5A524"/>
+        <text x="36" y="124" fill="#F1E9D8" font-size="15" font-weight="700">Tier 2 · One cloud, chosen by target market</text>
+        <text x="36" y="146" fill="#C9BFA9" font-size="13">$100–170 for one exam · weeks 4–12 · Azure for Gulf, AWS for US-remote</text>
+        <rect x="20" y="176" width="660" height="64" rx="8" fill="#163B50"/>
+        <text x="36" y="202" fill="#F1E9D8" font-size="15" font-weight="700">Tier 3 · Free widening: Boomi, MuleSoft, Kafka</text>
+        <text x="36" y="224" fill="#C9BFA9" font-size="13">$0–150 · ongoing · turns "IBM-only" into "migration and coexistence"</text>
+      </g>
+    </svg>
+  </figure>
+
+  <div class="group" data-group>
+    <h3>Tier 1 <span class="cost">≈ $0</span><span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="sk-apic-mcp"><span class="txt">Learn API Connect V12's agent features: republishing REST APIs as MCP tools, the AI Gateway, API Studio, DataPower Nano Gateway<small>IBM docs + free trial. Two evenings to read, one weekend to try.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-forge"><span class="txt">Install IBM ContextForge (open-source MCP/AI gateway) via Docker; register one REST API as a tool<small>github.com/IBM/mcp-context-forge. Also look at github.com/IBM/mcp — includes an MQ server.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-dp"><span class="txt">Run the free DataPower developer container; build GatewayScript and XSLT policies, OAuth and JWT validation<small>DataPower is in nearly every Gulf IBM listing. It is not on your resume yet.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-wm"><span class="txt">Trial IBM webMethods Hybrid Integration; understand how App Connect runtimes sit inside it<small>IBM's umbrella platform now. You will be asked.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-demo"><span class="txt">Ship the demo project (next section) by day 21 and publish it</span></label></li>
+    </ul>
+  </div>
+
+  <div class="group" data-group>
+    <h3>Tier 2 <span class="cost">$100–170</span><span class="pct"></span></h3>
+    <p class="dim" style="color:var(--sand-2);font-size:14px;margin-bottom:8px">Decision rule: Gulf primary → Azure (sovereign regions in UAE, Qatar, KSA; banks and government lean Azure). US-remote primary → AWS Solutions Architect Associate (one exam, no prerequisite, the badge US staffing firms filter on). Check regional exam pricing for Pakistan before assuming the US price. One cloud only, deep enough to design a CP4i-to-cloud migration.</p>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="sk-cloud-pick"><span class="txt">Pick the cloud (Azure or AWS) and write down why</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-cloud-hands"><span class="txt">Hands-on on the free tier: Azure Integration Services (Logic Apps, Service Bus, API Management, Event Grid) or AWS (API Gateway, EventBridge, SQS/SNS, Step Functions)<small>Rebuild one of your real ACE flows on it. That's the interview story.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-cloud-study"><span class="txt">Study with MS Learn or AWS Skill Builder only — no paid bootcamp</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-cloud-exam"><span class="txt">Sit the exam around day 60–75</span></label></li>
+    </ul>
+  </div>
+
+  <div class="group" data-group>
+    <h3>Tier 3 <span class="cost">$0–150</span><span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="sk-boomi"><span class="txt">Boomi certifications via Boomi Learning (free)</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-mule"><span class="txt">MuleSoft developer fundamentals, self-paced on Trailhead (free; verify current exam voucher terms)<small>MuleSoft now converts existing APIs into MCP endpoints — same story as your IBM demo, different vendor.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="sk-kafka"><span class="txt">Confluent's free Kafka training; developer cert (~$150) only if you want the badge</span></label></li>
+    </ul>
+  </div>
+
+  <div class="note">Skip for now: generic AI/ML courses (you are not competing with data scientists), TOGAF (expensive and slow to pay off — take it when an employer pays), a second cloud, any paid bootcamp. Total budget for everything above: roughly $150–320. The real cost is 10–12 evening hours a week for three months.</div>
+</section>
+
+<!-- ================= 5 DEMO ================= -->
+<section id="s5">
+  <h2>The demo — agents on top of a legacy order system</h2>
+  <p class="lead">One artifact that turns "IBM ACE developer" into "the person who connects agents to legacy retail and banking systems." Ship it by day 21. Rough is fine; public is mandatory.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture: an AI agent calls MCP tools through a governed gateway (ContextForge or API Connect with DataPower Nano), which fronts ACE flows that call a mock Sterling OMS, with audit logging and rate limits at the gateway.">
+      <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#F5A524"/></marker></defs>
+      <g font-family="Sora,sans-serif">
+        <!-- agent -->
+        <rect x="20" y="110" width="130" height="80" rx="8" fill="#163B50" stroke="#1E4A63"/>
+        <text x="85" y="142" fill="#F1E9D8" font-size="14" font-weight="700" text-anchor="middle">AI agent</text>
+        <text x="85" y="162" fill="#C9BFA9" font-size="11" text-anchor="middle">"Where is order 4471?</text>
+        <text x="85" y="176" fill="#C9BFA9" font-size="11" text-anchor="middle">Can I return it?"</text>
+        <!-- gateway -->
+        <rect x="200" y="80" width="170" height="140" rx="8" fill="#F5A524"/>
+        <text x="285" y="108" fill="#0E2A3A" font-size="14" font-weight="700" text-anchor="middle">Governed gateway</text>
+        <text x="285" y="128" fill="#0E2A3A" font-size="11" text-anchor="middle">ContextForge or API Connect</text>
+        <text x="285" y="142" fill="#0E2A3A" font-size="11" text-anchor="middle">+ DataPower Nano</text>
+        <text x="285" y="168" fill="#0E2A3A" font-size="11" text-anchor="middle">MCP tools · OAuth/JWT</text>
+        <text x="285" y="182" fill="#0E2A3A" font-size="11" text-anchor="middle">rate limits · audit log</text>
+        <text x="285" y="196" fill="#0E2A3A" font-size="11" text-anchor="middle">tool allow-list</text>
+        <!-- ACE -->
+        <rect x="420" y="110" width="120" height="80" rx="8" fill="#163B50" stroke="#1E4A63"/>
+        <text x="480" y="142" fill="#F1E9D8" font-size="14" font-weight="700" text-anchor="middle">ACE flows</text>
+        <text x="480" y="162" fill="#C9BFA9" font-size="11" text-anchor="middle">order status · create</text>
+        <text x="480" y="176" fill="#C9BFA9" font-size="11" text-anchor="middle">return · inventory</text>
+        <!-- OMS -->
+        <rect x="580" y="110" width="100" height="80" rx="8" fill="#163B50" stroke="#1E4A63"/>
+        <text x="630" y="142" fill="#F1E9D8" font-size="14" font-weight="700" text-anchor="middle">Mock OMS</text>
+        <text x="630" y="162" fill="#C9BFA9" font-size="11" text-anchor="middle">Sterling-shaped</text>
+        <text x="630" y="176" fill="#C9BFA9" font-size="11" text-anchor="middle">REST + MQ</text>
+        <!-- arrows -->
+        <line x1="150" y1="150" x2="198" y2="150" stroke="#F5A524" stroke-width="2" marker-end="url(#ah2)"/>
+        <line x1="370" y1="150" x2="418" y2="150" stroke="#F5A524" stroke-width="2" marker-end="url(#ah2)"/>
+        <line x1="540" y1="150" x2="578" y2="150" stroke="#F5A524" stroke-width="2" marker-end="url(#ah2)"/>
+        <!-- observability -->
+        <rect x="200" y="240" width="340" height="36" rx="8" fill="#163B50" stroke="#1E4A63"/>
+        <text x="370" y="263" fill="#C9BFA9" font-size="12" text-anchor="middle">Observability: OpenTelemetry traces → Jaeger, or ELK you already know</text>
+        <line x1="285" y1="220" x2="285" y2="238" stroke="#C9BFA9" stroke-dasharray="3 3"/>
+        <line x1="480" y1="190" x2="480" y2="238" stroke="#C9BFA9" stroke-dasharray="3 3"/>
+      </g>
+    </svg>
+    <figcaption>The agent never touches the OMS. Every call goes through a gateway you govern. That sentence is the whole pitch.</figcaption>
+  </figure>
+
+  <div class="group" data-group>
+    <h3>Build steps <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="dm-1"><span class="txt">Mock OMS: a small service with three endpoints — GET order status, POST create return, GET inventory — plus an MQ queue for return events<small>Node, Spring Boot, or even ACE itself. Seed 20 fake orders.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="dm-2"><span class="txt">ACE flows in front of it: validation, transformation, error handling, store-and-forward on the MQ leg<small>Reuse your own retry pattern. It's a case study inside a demo.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="dm-3"><span class="txt">Gateway: register the three APIs as MCP tools in ContextForge (or API Connect V12); add OAuth/JWT, a rate limit, and an allow-list so "create return" needs an explicit scope</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="dm-4"><span class="txt">Agent: any MCP-capable client or a 60-line script using a model API; ask the two questions; show the tool calls and the audit log</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="dm-5"><span class="txt">Traces: OpenTelemetry to Jaeger, or push logs to ELK; one screenshot showing a full request path</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="dm-6"><span class="txt">Write-up: README with the architecture diagram, why the gateway matters, what you'd change for production (secrets, scopes, PII masking, human approval on writes)</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="dm-7"><span class="txt">Publish on GitHub and your portfolio site; post it on LinkedIn with the diagram and one paragraph</span></label></li>
+    </ul>
+  </div>
+
+  <div class="note">Example LinkedIn post: "Most enterprise AI pilots stall on the same thing: the important systems — OMS, core banking, WMS — have no agent-friendly interface and never will without a gateway. I built a small working pattern this weekend: an agent asks about an order and files a return, but only through a governed MCP gateway in front of IBM ACE. OAuth, rate limits, allow-listed tools, full trace. Repo in comments. Curious what other integration folks are seeing when agents meet legacy."</div>
+</section>
+
+<!-- ================= 6 OUTREACH ================= -->
+<section id="s6">
+  <h2>Outreach playbook</h2>
+  <p class="lead">Five a day, every working day. Find the integration lead or an IBM-stack engineer at each target. Short, specific, one ask. Don't just apply through portals.</p>
+
+  <h3>Message templates</h3>
+  <p class="dim" style="color:var(--sand-2);font-size:14px">Replace the bracketed bits. Keep the length. Tap to copy.</p>
+
+  <div class="tpl" id="tpl1"><b>Gulf bank or telco — integration lead</b>
+Hi [Name], I lead IBM ACE / API Connect / CP4i delivery and recently integrated Sterling OMS and B2B into an enterprise ESB: 150 flows, 15 systems, team of 8. I've been exploring how API Connect V12 exposes legacy APIs to agents through MCP and published a working pattern: [link]. If [Company] is looking at agent access to core systems, I'd be glad to compare notes. Available immediately, open to relocating to [city] with family.</div>
+  <button class="copy" data-copy="tpl1">Copy</button>
+
+  <div class="tpl" id="tpl2"><b>Systems Limited leadership</b>
+[Name], hope you're well. Quick one: I'm back in Pakistan after the Visionet US engagement wrapped, and I'm looking at the Gulf as the next step. Given what we built in the IBM practice, I wanted to ask directly whether there's an opening in the KSA or UAE teams for an integration architect, or a client you'd want me on. I can move quickly. Happy to talk this week.</div>
+  <button class="copy" data-copy="tpl2">Copy</button>
+
+  <div class="tpl" id="tpl3"><b>GBM / Ejada / Alpha Data — practice head</b>
+Hi [Name], I've spent 12 years on the IBM integration stack (ACE, MQ, API Connect, DataPower, CP4i) plus Sterling OMS and B2B, most recently leading a 150-flow retail integration in the US. I ran the regional IBM practice at Systems Limited before that. I'm targeting the GCC now and would value 15 minutes on where [Company] is growing its IBM delivery. Certified on ACE V12 and CP4i Architect; available immediately.</div>
+  <button class="copy" data-copy="tpl3">Copy</button>
+
+  <div class="tpl" id="tpl4"><b>US retailer / 3PL — Sterling B2B remote contract</b>
+Hi [Name], I noticed [Company] runs Sterling B2B Integrator. I've built and supported Sterling OMS/B2B integrations at scale, including a store-and-forward retry design that cut failed-document reprocessing from hours to a 15-minute cycle. If you have a backlog of EDI partner onboarding or failed-transaction cleanup, I do fixed-price remote engagements. Happy to send a one-page scope.</div>
+  <button class="copy" data-copy="tpl4">Copy</button>
+
+  <div class="tpl" id="tpl5"><b>Pakistani bank — corporate training pitch</b>
+Hi [Name], I'm IBM-certified on ACE V12 and CP4i Architect and previously ran the IBM practice at Systems Limited. I'm offering a 3-day hands-on ACE + API Connect course for integration teams — real flows, error handling, deployment to CP4i, and an API security module. Would [Bank]'s integration or L&D team be open to a short call on dates and pricing?</div>
+  <button class="copy" data-copy="tpl5">Copy</button>
+
+  <h3>LinkedIn posts — two a week</h3>
+  <ul class="plain">
+    <li>An ACE error-handling pattern you actually use, with a diagram.</li>
+    <li>A Sterling B2B gotcha and how you fixed it.</li>
+    <li>The demo project write-up.</li>
+    <li>"What I'd look at first in an ACE-to-CP4i migration" — five bullets.</li>
+    <li>DataPower policy snippet: JWT validation in GatewayScript, explained in plain words.</li>
+  </ul>
+  <p class="dim" style="color:var(--sand-2);font-size:14px">Almost nobody writes about this stack, so the posts rank. Expect inbound recruiter messages within two to three weeks of consistent posting.</p>
+
+  <h3>Targets — tick when you've made contact with a person, not just applied</h3>
+  <div class="region" data-group>
+    <h3>Saudi Arabia <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="t-gbm-ksa"><span class="txt">Gulf Business Machines (GBM)</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-ejada"><span class="txt">Ejada Systems</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-elm"><span class="txt">Elm</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-stcs"><span class="txt">Solutions by stc</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-alrajhi"><span class="txt">Al Rajhi Bank</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-snb"><span class="txt">Saudi National Bank</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-riyad"><span class="txt">Riyad Bank</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-stc"><span class="txt">stc / Mobily</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-sl-ksa"><span class="txt">Systems Limited KSA</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-sis-ksa"><span class="txt">IBM Consulting, Accenture, TCS, Wipro, Infosys, Tech Mahindra — KSA arms</span></label></li>
+    </ul>
+  </div>
+  <div class="region" data-group>
+    <h3>UAE and Qatar <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="t-gbm-uae"><span class="txt">GBM UAE / Qatar</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-alpha"><span class="txt">Alpha Data</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-core42"><span class="txt">Core42</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-enbd"><span class="txt">Emirates NBD</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-fab"><span class="txt">FAB</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-mashreq"><span class="txt">Mashreq</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-adcb"><span class="txt">ADCB</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-eand"><span class="txt">e&amp; / du</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-qnb"><span class="txt">QNB / Doha Bank / Ooredoo</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-sl-uae"><span class="txt">Systems Limited UAE</span></label></li>
+    </ul>
+  </div>
+  <div class="region" data-group>
+    <h3>Pakistan (Track B) <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="t-sl-pk"><span class="txt">Systems Limited (rehire)</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-contour"><span class="txt">Contour Software</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-netsol"><span class="txt">Netsol / Techlogix / Inbox Business Technologies</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-avanza"><span class="txt">Avanza / TPS / i2c</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-banks-pk"><span class="txt">HBL, UBL, Meezan, Bank Alfalah, MCB, Faysal — integration teams</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-telco-pk"><span class="txt">Jazz, PTCL/Ufone, Telenor</span></label></li>
+    </ul>
+  </div>
+  <div class="region" data-group>
+    <h3>Remote (Track B/C) <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="t-upwork"><span class="txt">Upwork profile live; saved searches for "IBM App Connect", "IBM MQ", "IIB", "Sterling B2B Integrator"</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-toptal"><span class="txt">Toptal application submitted</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-deel"><span class="txt">Deel / Remote.com contractor profiles</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="t-usstaff"><span class="txt">Five US staffing firms that place offshore IBM middleware contractors</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 7 CONSULTING ================= -->
+<section id="s7">
+  <h2>Consulting — three offers, zero setup cost</h2>
+  <p class="lead">Productized, fixed-price, remote. Each one is a project you've already delivered, rewritten as something a buyer can say yes to in one email. Prices are starting points to test, not rules.</p>
+
+  <div class="offer">
+    <h3>1. Sterling B2B / EDI health check</h3>
+    <div class="meta">2 weeks · remote · fixed price · try $4–6k for mid-size retailers or 3PLs</div>
+    <p>Findings report on failed-document rates, partner-onboarding bottlenecks, and a recovery design. The case study is your store-and-forward pattern that recovered ~250 failures a day and cut reprocessing from hours to a 15–30 minute cycle. US retailers run Sterling and cannot staff it.</p>
+  </div>
+  <div class="offer">
+    <h3>2. ACE-to-CP4i or ACE-to-cloud migration assessment</h3>
+    <div class="meta">3 weeks · remote · fixed price · try $6–10k</div>
+    <p>Inventory every flow, classify by pattern, produce a phased plan and cost model. Your proof: bare-metal to CP4i, deployments from ~2 hours to ~30 minutes across 150 flows.</p>
+  </div>
+  <div class="offer">
+    <h3>3. Agent-readiness assessment for an integration estate</h3>
+    <div class="meta">2 weeks · remote · fixed price · try $5–8k</div>
+    <p>Which APIs can be safely exposed to agents, what gateway and governance is needed, what to build first. Very new. Almost no one offering it also knows Sterling and core banking.</p>
+  </div>
+
+  <div class="group" data-group>
+    <h3>Setup <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="c-site"><span class="txt">One-page site on your existing GitHub Pages: three offers, fixed prices, one case study each, a contact form or email</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="c-terms"><span class="txt">Standard terms: 50% upfront, balance net-15, scope in writing, two revision rounds</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="c-pay"><span class="txt">Payoneer or Wise account ready to receive USD</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="c-reg"><span class="txt">Register a sole proprietorship in Pakistan when the first invoice is real — not before</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="c-first"><span class="txt">First paid engagement, any size</span></label></li>
+    </ul>
+  </div>
+  <div class="note">Rule: consulting stays at 10% until either Track A stalls at Gate 2 or you're settled in the Gulf. Consulting from Pakistan with no runway means taking bad clients at bad rates out of fear.</div>
+</section>
+
+<!-- ================= 8 90 DAYS ================= -->
+<section id="s8">
+  <h2>The 90 days, week by week</h2>
+  <p class="lead">Priorities per week. Daily rhythm never changes: 5 outreach, 3 applications, 1 hour building.</p>
+
+  <div class="week"><h3>Week 1</h3><div class="when">Sep 11 – 17</div><ul><li>Everything in "Week 1 — start now"</li><li>Attestation and police certificate submitted</li><li>10 Gulf applications, Systems Limited and GBM contacted</li></ul></div>
+  <div class="week"><h3>Week 2</h3><div class="when">Sep 18 – 24</div><ul><li>DataPower container running; first GatewayScript policy</li><li>Mock OMS and ACE flows for the demo built</li><li>First LinkedIn post (ACE pattern)</li><li>Training pitch sent to two banks and one SI</li></ul></div>
+  <div class="week"><h3>Week 3</h3><div class="when">Sep 25 – Oct 1</div><ul><li>Demo gateway + agent working; write-up drafted</li><li>Demo published; LinkedIn post 2 and 3</li><li>Consulting one-pager live</li></ul></div>
+  <div class="week"><h3>Weeks 4–6</h3><div class="when">Oct 2 – 22</div><ul><li>First-round Gulf interviews should be appearing; prep with the demo as your story</li><li>Cloud chosen; free-tier hands-on begins</li><li>webMethods trial done; resume updated with DataPower + MCP + webMethods</li><li>Boomi free certs</li></ul></div>
+
+  <div class="gate-card"><h3>Gate 1 · day 45 · Oct 26</h3><p>Zero Gulf first-round interviews? The problem is the message, not the market. Rework the resume and the outreach. Widen to Bahrain, Kuwait, Oman. Raise Track B to 40%.</p></div>
+
+  <div class="week"><h3>Weeks 7–9</h3><div class="when">Oct 23 – Nov 12</div><ul><li>Second-round interviews and technical assessments</li><li>Cloud exam study intensifies</li><li>Reference list ready; attestation complete</li><li>Weekly numbers reviewed every Friday</li></ul></div>
+  <div class="week"><h3>Weeks 10–11</h3><div class="when">Nov 13 – 26</div><ul><li>Offers and negotiation (see Negotiate section)</li><li>Sit the cloud exam if not yet done</li></ul></div>
+
+  <div class="gate-card"><h3>Gate 2 · day 75 · Nov 25</h3><p>No offer in hand? Accept the best Track B option to protect runway and keep Track A running from employment. Never let runway fall under two months without income coming in. Never take a Pakistan role without a 30-day notice period in writing.</p></div>
+
+  <div class="week"><h3>Weeks 12–13</h3><div class="when">Nov 27 – Dec 10</div><ul><li>Visa paperwork or contract start</li><li>Consulting offers stay live; take what lands</li><li>Retrospective: what worked, what to keep doing from the new base</li></ul></div>
+</section>
+
+<!-- ================= 9 RESUME ================= -->
+<section id="s9">
+  <h2>Resume v2</h2>
+  <p class="lead">Your v2 already has numbers, which was the big fix. These are the remaining changes.</p>
+  <div class="group" data-group>
+    <h3>Changes <span class="pct"></span></h3>
+    <ul class="list">
+      <li><label class="chk"><input type="checkbox" data-id="r-dp"><span class="txt">Add DataPower, GatewayScript, OAuth/JWT policy work under API Connect<small>Do the container exercises first, then add it honestly as hands-on.</small></span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="r-mcp"><span class="txt">Add a Core Skills line: "AI/agent integration: exposing enterprise APIs as governed MCP tools (IBM API Connect V12, ContextForge), AI gateway policy and observability" — backed by the demo link</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="r-wm"><span class="txt">Add webMethods Hybrid Integration once the trial is done</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="r-dup"><span class="txt">Remove the duplicate: the HR-system / WMS bullet appears under both Managing Consultant and Senior Integration Consultant</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="r-intern"><span class="txt">Cut the 2013 Programmr internship</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="r-dates"><span class="txt">Make the Visionet end date and your interview story match (laid off June, on paper through August)</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="r-hdr"><span class="txt">Header line: "Available immediately — open to KSA, UAE, Qatar relocation; remote contracts worldwide"</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-id="r-3"><span class="txt">Three versions: Gulf, Pakistan enterprise, US-remote — same facts, different emphasis and keywords</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 10 NEGOTIATE ================= -->
+<section id="s10">
+  <h2>When the offer comes</h2>
+  <p class="lead">Anchor high. You ran a practice and led a 150-flow Sterling integration. Ask for the package, not just the base.</p>
+  <div class="page">
+    <h3>Before the first call</h3>
+    <p>Check current listings on Bayt and GulfTalent for "Integration Architect" and "IBM CP4i" to see the band being advertised right now. Zero income tax and housing allowances change the comparison to your US number more than people expect.</p>
+    <h3>Ask explicitly about</h3>
+    <ul class="plain">
+      <li>Family visa sponsorship, and who pays the visa and iqama fees</li>
+      <li>Housing allowance (or provided housing) and schooling allowance</li>
+      <li>Relocation: flights for the family, shipping, temporary accommodation</li>
+      <li>Annual flights home, medical insurance for the family</li>
+      <li>End-of-service gratuity terms and probation length</li>
+      <li>Notice period — keep it symmetrical</li>
+    </ul>
+    <p class="dim">These are often more negotiable than base salary and worth more in cash terms.</p>
+  </div>
+</section>
+
+<!-- ================= 11 NUMBERS ================= -->
+<section id="s11">
+  <h2>Weekly numbers</h2>
+  <p class="lead">Log every Friday. If the reply rate is under 10%, the message is wrong. Fix the message before blaming the market.</p>
+  <div class="form">
+    <div><label for="wkDate">Week ending</label><input type="date" id="wkDate"></div>
+    <div><label for="wkSent">Outreach sent</label><input type="number" id="wkSent" min="0" inputmode="numeric"></div>
+    <div><label for="wkReplies">Replies</label><input type="number" id="wkReplies" min="0" inputmode="numeric"></div>
+    <div><label for="wkScreens">Screens</label><input type="number" id="wkScreens" min="0" inputmode="numeric"></div>
+    <div><label for="wkInt">Interviews</label><input type="number" id="wkInt" min="0" inputmode="numeric"></div>
+    <div><label for="wkOffers">Offers</label><input type="number" id="wkOffers" min="0" inputmode="numeric"></div>
+  </div>
+  <button class="btn" id="addWeek">Log this week</button>
+  <div id="weekChart"></div>
+  <div id="weekTable"></div>
+</section>
+
+<!-- ================= 12 RULES ================= -->
+<section id="s12">
+  <h2>Rules I don't break</h2>
+  <p class="lead">Read when tired.</p>
+  <div class="page">
+    <ul class="plain">
+      <li>Applications started the first week. Nothing gets to delay them.</li>
+      <li>Five outreach, three applications, one hour building. Every working day. Streak matters more than any single day.</li>
+      <li>Skills run beside the search, never instead of it.</li>
+      <li>One cloud. One demo. Finished beats perfect.</li>
+      <li>Reply rate under 10% means I rewrite the message, not lower my expectations.</li>
+      <li>I don't accept a role without a 30-day notice period before Gate 2.</li>
+      <li>Runway never drops below two months without income.</li>
+      <li>Consulting stays at 10% until the base is stable.</li>
+      <li>This is a distribution problem. My worth is not on trial. My visibility is.</li>
+    </ul>
+  </div>
+  <div class="note" style="margin-top:18px">Twelve years. Three industries. A stack almost nobody has end to end. The Gulf is short of exactly you and doesn't know you're free yet. Ninety days to fix that. Start with today's three.</div>
+</section>
+
+<div class="foot">
+  <div>Ticking boxes, tapping tallies and logging a week all save automatically.</div>
+  <div class="sync" id="syncBox">
+    <h3 style="margin:0 0 4px;font-size:15px;color:var(--sand)">Cloud sync (silent, automatic)</h3>
+    <p style="font-size:13px;margin:0 0 8px">Paste a GitHub token with Gist read/write permission. The page then keeps a private gist up to date every time you tick, tap or log — no button, no notification — and pulls it back on any device where you enter the same PIN and token. Everything in the gist is encrypted with your PIN; the token itself is stored encrypted too.</p>
+    <div id="syncOff">
+      <div class="form">
+        <div style="grid-column:1/-1"><label for="ghToken">GitHub token (gist permission only)</label><input type="password" id="ghToken" autocomplete="off" placeholder="github_pat_… or ghp_…"></div>
+        <div style="grid-column:1/-1"><label for="ghGist">Existing gist ID (leave blank to create one)</label><input type="text" id="ghGist" autocomplete="off" placeholder="optional"></div>
+      </div>
+      <button class="btn" id="syncConnect">Connect sync</button>
+    </div>
+    <div id="syncOn" style="display:none">
+      <div style="font-size:13px" id="syncInfo"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+        <button class="btn ghost" id="syncNow">Sync now</button>
+        <button class="btn ghost" id="syncDisconnect">Disconnect</button>
+      </div>
+    </div>
+    <div style="font-size:12px;margin-top:8px" id="syncStatus"></div>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+    <button class="btn" id="exportBtn">Export backup</button>
+    <button class="btn ghost" id="importBtn">Import backup</button>
+    <button class="btn ghost" id="lockNow">Lock</button>
+    <button class="btn ghost" id="changePin">Change PIN</button>
+    <button class="btn ghost" id="resetAll">Reset all progress</button>
+  </div>
+  <input type="file" id="importFile" accept="application/json,.json" style="display:none">
+  <div style="margin-top:10px">Export downloads a small encrypted JSON file with every tick, tally and logged week; it opens only with your PIN. Save it to Drive, iCloud or WhatsApp-yourself, then Import it on any device or after a reset. Same file works whether this page is open in Claude or in a browser.</div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  var KEY='sami_campaign_v1',SKEY='sami_campaign_sync',ITER=300000;
+  function DEF(){return {start:'2026-09-11',why:'',checks:{},daily:{},weeks:[],last:null};}
+  var state=DEF(),sync={token:'',gist:'',owner:''};
+  var mode='memory',key=null,salt=null,pin=null,pendingBlob=null,pendingLegacy=null,lockMode='unlock';
+
+  /* ---------- small helpers ---------- */
+  function todayStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function daysBetween(a,b){return Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/86400000);}
+  function fmt(s){var d=new Date(s+'T00:00:00');return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+  function addMonths(s,n){var d=new Date(s+'T00:00:00');d.setMonth(d.getMonth()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function stamp(){return new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
+  function setStatus(t){document.getElementById('saveState').textContent=t;}
+  function syncStatus(t){document.getElementById('syncStatus').textContent=t;}
+  function b64(buf){var u=new Uint8Array(buf),s='';for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s);}
+  function unb64(s){var bin=atob(s),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}
+
+  /* ---------- crypto: PBKDF2 -> AES-GCM; nothing secret ever lives in the page code ---------- */
+  async function deriveKey(p,saltBytes,iter){
+    var km=await crypto.subtle.importKey('raw',new TextEncoder().encode(p),'PBKDF2',false,['deriveKey']);
+    return crypto.subtle.deriveKey({name:'PBKDF2',salt:saltBytes,iterations:iter||ITER,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+  }
+  async function encryptPayload(){
+    var iv=crypto.getRandomValues(new Uint8Array(12));
+    var pt=new TextEncoder().encode(JSON.stringify({state:state,sync:sync}));
+    var ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,pt);
+    return JSON.stringify({v:1,iter:ITER,salt:b64(salt),iv:b64(iv),ct:b64(ct)});
+  }
+  async function decryptBlob(blob,k){
+    var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(blob.iv)},k,unb64(blob.ct));
+    return JSON.parse(new TextDecoder().decode(pt));
+  }
+  /* decrypt a blob that may use a different salt (another device); returns {payload,key,salt} or null */
+  async function openBlob(blob){
+    if(!blob||!blob.ct)return null;
+    try{
+      if(salt&&blob.salt===b64(salt)&&key){return {payload:await decryptBlob(blob,key),key:key,salt:salt};}
+      if(!pin)return null;
+      var sb=unb64(blob.salt);var k=await deriveKey(pin,sb,blob.iter);
+      return {payload:await decryptBlob(blob,k),key:k,salt:sb};
+    }catch(e){return null;}
+  }
+
+  /* ---------- storage tiers: Claude artifact storage -> browser localStorage -> memory ---------- */
+  function hasLocal(){try{var k='__t';localStorage.setItem(k,'1');localStorage.removeItem(k);return true;}catch(e){return false;}}
+  function detectMode(){mode=(window.storage&&window.storage.get)?'artifact':(hasLocal()?'local':'memory');}
+  async function rawGet(k){try{if(mode==='artifact'){var r=await window.storage.get(k,false);return r&&r.value?r.value:null;}if(mode==='local')return localStorage.getItem(k);}catch(e){}return null;}
+  async function rawSet(k,v){try{if(mode==='artifact'){await window.storage.set(k,v,false);return true;}if(mode==='local'){localStorage.setItem(k,v);return true;}}catch(e){}return false;}
+  async function rawDel(k){try{if(mode==='artifact')await window.storage.delete(k,false);else if(mode==='local')localStorage.removeItem(k);}catch(e){}}
+  async function persist(){if(!key)return null;var enc=await encryptPayload();if(mode!=='memory')await rawSet(KEY,enc);return enc;}
+
+  var saveT=null;
+  function save(skipPush){
+    state.updatedAt=new Date().toISOString();
+    if(!skipPush)schedulePush();
+    clearTimeout(saveT);
+    saveT=setTimeout(async function(){
+      try{
+        if(mode==='memory'){setStatus('No storage here — progress lasts this session only. Use Export below to keep it.');return;}
+        await persist();setStatus('Saved '+stamp()+' (encrypted, '+(mode==='artifact'?'Claude storage':'this browser')+').');
+      }catch(e){setStatus('Could not save. Export below to keep a copy.');}
+    },300);
+  }
+
+  /* ---------- lock screen ---------- */
+  var L={el:document.getElementById('lock'),t:document.getElementById('lockTitle'),m:document.getElementById('lockMsg'),p1:document.getElementById('pin1'),p2:document.getElementById('pin2'),err:document.getElementById('lockErr'),btn:document.getElementById('lockBtn'),forgot:document.getElementById('lockForgot')};
+  function showLock(m){
+    lockMode=m;document.body.classList.add('locked');L.el.style.display='';L.p1.value='';L.p2.value='';L.err.textContent='';L.p2.style.display='none';L.forgot.style.display='none';L.btn.disabled=false;
+    if(m==='setup'){L.t.textContent='Set your PIN';L.m.textContent='6 to 12 digits. It encrypts everything on this page — progress, weekly log, and the sync token. There is no recovery if you forget it, so write it somewhere safe.';L.p2.style.display='';L.btn.textContent='Set PIN and open';}
+    else if(m==='unlock'){L.t.textContent='Enter PIN';L.m.textContent='Your progress is encrypted with your PIN. Nothing in this page\'s code can reveal it.';L.btn.textContent='Unlock';L.forgot.style.display='';}
+    else if(m==='nocrypto'){L.t.textContent='Encryption unavailable';L.m.textContent='This browser context does not provide Web Crypto, so the page cannot open securely. Open it over https (for example on your GitHub Pages site) or in Safari or Chrome.';L.p1.style.display='none';L.btn.style.display='none';}
+    setTimeout(function(){L.p1.focus();},50);
+  }
+  function hideLock(){document.body.classList.remove('locked');L.el.style.display='none';}
+  function validPin(v){return /^\d{6,12}$/.test(v);}
+  L.p1.addEventListener('keydown',function(e){if(e.key==='Enter')L.btn.click();});
+  L.p2.addEventListener('keydown',function(e){if(e.key==='Enter')L.btn.click();});
+  L.btn.addEventListener('click',async function(){
+    var v=L.p1.value.trim();L.err.textContent='';
+    if(!validPin(v)){L.err.textContent='PIN must be 6 to 12 digits.';return;}
+    L.btn.disabled=true;
+    try{
+      if(lockMode==='setup'){
+        if(L.p2.value.trim()!==v){L.err.textContent='PINs do not match.';L.btn.disabled=false;return;}
+        L.btn.textContent='Encrypting…';
+        pin=v;salt=crypto.getRandomValues(new Uint8Array(16));key=await deriveKey(pin,salt);
+        state=(pendingLegacy&&pendingLegacy.state)?Object.assign(DEF(),pendingLegacy.state):DEF();
+        sync=(pendingLegacy&&pendingLegacy.sync)?Object.assign({token:'',gist:'',owner:''},pendingLegacy.sync):{token:'',gist:'',owner:''};
+        pendingLegacy=null;
+        await persist();await rawDel(SKEY);
+        hideLock();afterUnlock(true);
+      }else{
+        L.btn.textContent='Checking…';
+        pin=v;var r=await openBlob(pendingBlob);
+        if(!r){pin=null;L.err.textContent='Wrong PIN.';L.btn.textContent='Unlock';L.btn.disabled=false;L.p1.value='';L.p1.focus();return;}
+        key=r.key;salt=r.salt;state=Object.assign(DEF(),r.payload.state||{});sync=Object.assign({token:'',gist:'',owner:''},r.payload.sync||{});
+        pendingBlob=null;hideLock();afterUnlock(false);
+      }
+    }catch(e){L.err.textContent='Something went wrong. Try again.';L.btn.disabled=false;}
+  });
+  L.forgot.addEventListener('click',async function(){
+    if(!confirm('Wipe the encrypted progress on this device and set a new PIN? Any copy in the gist stays encrypted with the old PIN and cannot be read without it.'))return;
+    await rawDel(KEY);await rawDel(SKEY);pendingBlob=null;pendingLegacy=null;showLock('setup');
+  });
+  function afterUnlock(fresh){
+    renderAll();renderSync();
+    if(mode==='artifact')setStatus('Progress saves automatically, encrypted, in Claude storage.');
+    else if(mode==='local')setStatus('Progress saves automatically, encrypted, in this browser on this device.');
+    else setStatus('No storage here — progress lasts this session only. Use Export below to keep it.');
+    if(sync.token&&sync.gist)pullNow();
+    armIdle();
+  }
+  async function lock(){
+    if(!key)return;
+    try{var enc=await encryptPayload();pendingBlob=JSON.parse(enc);}catch(e){}
+    key=null;pin=null;state=DEF();sync={token:'',gist:'',owner:''};
+    showLock('unlock');
+  }
+  var idleT=null;
+  function armIdle(){clearTimeout(idleT);idleT=setTimeout(lock,10*60*1000);}
+  ['pointerdown','keydown','touchstart'].forEach(function(ev){document.addEventListener(ev,function(){if(key)armIdle();},{passive:true});});
+  document.getElementById('lockNow').addEventListener('click',lock);
+  document.getElementById('changePin').addEventListener('click',async function(){
+    var a=prompt('New PIN (6 to 12 digits):');if(a===null)return;a=a.trim();
+    if(!validPin(a)){alert('PIN must be 6 to 12 digits.');return;}
+    var b=prompt('Repeat the new PIN:');if(b===null)return;
+    if(b.trim()!==a){alert('PINs do not match.');return;}
+    pin=a;salt=crypto.getRandomValues(new Uint8Array(16));key=await deriveKey(pin,salt);
+    await persist();setStatus('PIN changed and progress re-encrypted.');schedulePush();
+  });
+
+  async function boot(){
+    detectMode();
+    if(!(window.crypto&&crypto.subtle)){showLock('nocrypto');return;}
+    var raw=await rawGet(KEY),blob=null,legacy=null;
+    if(raw){try{var o=JSON.parse(raw);if(o&&o.ct)blob=o;else if(o&&o.checks)legacy=o;}catch(e){}}
+    var ls=null,rs=await rawGet(SKEY);if(rs){try{ls=JSON.parse(rs);}catch(e){}}
+    if(blob){pendingBlob=blob;showLock('unlock');}
+    else{pendingLegacy={state:legacy,sync:ls};showLock('setup');}
+  }
+
+  /* ---------- console ---------- */
+  function renderConsole(){
+    var t=todayStr();
+    var day=Math.max(1,daysBetween(state.start,t)+1);
+    var pct=Math.min(100,Math.max(1,day/90*100));
+    document.getElementById('dayNum').textContent=Math.min(day,90);
+    document.getElementById('startLabel').textContent=fmt(state.start);
+    document.getElementById('fill').style.width=pct+'%';
+    document.getElementById('me').style.left=pct+'%';
+    var g1=45-day,g2=75-day;
+    document.getElementById('toG1').textContent=g1>0?g1+' days':(g1===0?'today':'passed');
+    document.getElementById('toG2').textContent=g2>0?g2+' days':(g2===0?'today':'passed');
+    var runwayDays=daysBetween(t,addMonths(state.start,4));
+    document.getElementById('runwayLeft').textContent=runwayDays>0?(runwayDays>=30?'~'+Math.round(runwayDays/30*10)/10+' mo':runwayDays+' days'):'reached';
+    var d=state.daily[t]||{o:0,a:0,l:0};
+    ['o','a','l'].forEach(function(k){
+      var b=document.querySelector('.tally button[data-k="'+k+'"]');var goal=+b.getAttribute('data-goal');
+      b.querySelector('.n').textContent=d[k]||0;b.classList.toggle('done',(d[k]||0)>=goal);
+    });
+    document.getElementById('streak').textContent=streak()+' days';
+    var tot=0;Object.keys(state.daily).forEach(function(k){tot+=state.daily[k].o||0;});
+    document.getElementById('totalO').textContent=tot;
+    document.getElementById('whyBox').value=state.why||'';
+  }
+  function complete(d){return d&&(d.o||0)>=5&&(d.a||0)>=3&&(d.l||0)>=1;}
+  function streak(){
+    var n=0,d=new Date(),s=todayStr();
+    if(!complete(state.daily[s]))d.setDate(d.getDate()-1);
+    for(var i=0;i<400;i++){
+      var wd=d.getDay();var k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      if(wd===5||wd===6){d.setDate(d.getDate()-1);continue;}
+      if(complete(state.daily[k])){n++;d.setDate(d.getDate()-1);}else break;
+    }
+    return n;
+  }
+  document.querySelectorAll('.tally button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=todayStr(),k=b.getAttribute('data-k');
+      state.daily[t]=state.daily[t]||{o:0,a:0,l:0};state.daily[t][k]=(state.daily[t][k]||0)+1;state.last={t:t,k:k};
+      renderConsole();save();
+    });
+  });
+  document.getElementById('undoTap').addEventListener('click',function(){
+    if(!state.last)return;var l=state.last;
+    if(state.daily[l.t]&&state.daily[l.t][l.k]>0)state.daily[l.t][l.k]--;
+    state.last=null;renderConsole();save();
+  });
+  document.getElementById('whyBox').addEventListener('input',function(e){state.why=e.target.value;save();});
+  document.getElementById('editStart').addEventListener('click',function(){
+    var v=prompt('Campaign start date (YYYY-MM-DD):',state.start);
+    if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v)){state.start=v;renderConsole();save();}
+  });
+
+  /* ---------- checklists ---------- */
+  function renderChecks(){
+    document.querySelectorAll('input[type=checkbox][data-id]').forEach(function(c){c.checked=!!state.checks[c.getAttribute('data-id')];});
+    document.querySelectorAll('[data-group]').forEach(function(g){
+      var all=g.querySelectorAll('input[type=checkbox]'),done=0;all.forEach(function(c){if(c.checked)done++;});
+      var p=g.querySelector('.pct');if(p)p.textContent=all.length?(done+'/'+all.length):'';
+    });
+  }
+  document.querySelectorAll('input[type=checkbox][data-id]').forEach(function(c){
+    c.addEventListener('change',function(){state.checks[c.getAttribute('data-id')]=c.checked;renderChecks();save();});
+  });
+
+  /* ---------- copy ---------- */
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var el=document.getElementById(b.getAttribute('data-copy'));var text=el.textContent.replace(/^[^\n]*\n/,'');
+      var done=function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy';},1500);};
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(done,function(){fallback(text,done);});else fallback(text,done);
+    });
+  });
+  function fallback(text,cb){var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);cb();}
+
+  /* ---------- weekly numbers ---------- */
+  function renderWeeks(){
+    var tbl=document.getElementById('weekTable'),ch=document.getElementById('weekChart');
+    if(!state.weeks.length){tbl.innerHTML='<div class="empty">No weeks logged yet. Log your first Friday and the reply-rate line appears here.</div>';ch.innerHTML='';return;}
+    var rows=state.weeks.slice().sort(function(a,b){return a.w<b.w?-1:1;});
+    var h='<table><thead><tr><th>Week</th><th>Sent</th><th>Replies</th><th>Rate</th><th>Screens</th><th>Int.</th><th>Offers</th><th></th></tr></thead><tbody>';
+    rows.forEach(function(r){var rate=r.sent?Math.round(r.replies/r.sent*100):0;
+      h+='<tr><td>'+fmt(r.w).replace(/ \d{4}$/,'')+'</td><td>'+r.sent+'</td><td>'+r.replies+'</td><td class="rate">'+rate+'%</td><td>'+r.screens+'</td><td>'+r.int+'</td><td>'+r.offers+'</td><td><button class="undo" data-del="'+r.w+'">remove</button></td></tr>';});
+    h+='</tbody></table>';tbl.innerHTML=h;
+    tbl.querySelectorAll('[data-del]').forEach(function(b){b.addEventListener('click',function(){var w=b.getAttribute('data-del');state.weeks=state.weeks.filter(function(x){return x.w!==w;});renderWeeks();save();});});
+    var max=Math.max.apply(null,rows.map(function(r){return r.sent;}).concat([1]));
+    var bh='<div class="bars">';
+    rows.forEach(function(r){var sp=Math.round(r.sent/max*100);var ri=r.sent?Math.round(r.replies/max*100):0;bh+='<div style="height:'+sp+'%" title="'+r.sent+' sent, '+r.replies+' replies"><div class="i" style="position:absolute;left:0;right:0;bottom:0;height:'+Math.round(ri/Math.max(sp,1)*100)+'%"></div></div>';});
+    bh+='</div><div class="empty" style="padding:0">Bars: outreach sent per week; amber portion: replies.</div>';ch.innerHTML=bh;
+  }
+  document.getElementById('addWeek').addEventListener('click',function(){
+    var w=document.getElementById('wkDate').value||todayStr();
+    var n=function(id){return Math.max(0,parseInt(document.getElementById(id).value||'0',10));};
+    var rec={w:w,sent:n('wkSent'),replies:n('wkReplies'),screens:n('wkScreens'),int:n('wkInt'),offers:n('wkOffers')};
+    state.weeks=state.weeks.filter(function(x){return x.w!==w;});state.weeks.push(rec);
+    ['wkSent','wkReplies','wkScreens','wkInt','wkOffers'].forEach(function(id){document.getElementById(id).value='';});
+    renderWeeks();save();
+  });
+
+  /* ---------- cloud sync (gist holds only the encrypted blob) ---------- */
+  function renderSync(){
+    var on=!!(sync.token&&sync.gist);
+    document.getElementById('syncOff').style.display=on?'none':'';document.getElementById('syncOn').style.display=on?'':'none';
+    if(on){var raw=sync.owner?('https://gist.githubusercontent.com/'+sync.owner+'/'+sync.gist+'/raw/sami-campaign.json'):'';
+      document.getElementById('syncInfo').innerHTML='Connected to gist <b>'+sync.gist+'</b>.'+(raw?'<br>Raw JSON (encrypted — safe to back up with an iOS Shortcut): <span style="word-break:break-all">'+raw+'</span>':'');}
+  }
+  var pushT=null;
+  function schedulePush(){if(!(sync.token&&sync.gist))return;clearTimeout(pushT);pushT=setTimeout(pushNow,2000);}
+  async function pushNow(){
+    if(!(sync.token&&sync.gist&&key))return;
+    try{var enc=await encryptPayload();
+      var res=await fetch('https://api.github.com/gists/'+sync.gist,{method:'PATCH',headers:{'Authorization':'Bearer '+sync.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({files:{'sami-campaign.json':{content:enc}}})});
+      if(!res.ok)throw new Error(res.status);syncStatus('Synced '+stamp()+' (encrypted).');
+    }catch(e){syncStatus('Sync failed ('+(e.message||'network')+'). Will retry on the next change.');}
+  }
+  async function pullNow(){
+    if(!(sync.token&&sync.gist))return;
+    try{
+      var res=await fetch('https://api.github.com/gists/'+sync.gist,{headers:{'Authorization':'Bearer '+sync.token,'Accept':'application/vnd.github+json'},cache:'no-store'});
+      if(!res.ok)throw new Error(res.status);var g=await res.json();
+      if(g.owner&&g.owner.login&&g.owner.login!==sync.owner){sync.owner=g.owner.login;await persist();}
+      var f=g.files&&g.files['sami-campaign.json'];if(!f||!f.content)return;
+      var blob=null;try{blob=JSON.parse(f.content);}catch(e){}
+      if(!blob||!blob.ct){syncStatus('Gist holds an old unencrypted copy; it will be replaced on the next change.');return;}
+      var r=await openBlob(blob);
+      if(!r){syncStatus('The gist is encrypted with a different PIN. Change this device\'s PIN to match, or it will be overwritten on the next change.');return;}
+      var remote=r.payload.state||{};
+      if((remote.updatedAt||'')>(state.updatedAt||'')){
+        var keepSync=sync;state=Object.assign(DEF(),remote);sync=keepSync;key=r.key;salt=r.salt;
+        renderAll();save(true);syncStatus('Pulled newer progress from the gist.');
+      }else{if(r.salt!==salt){key=r.key;salt=r.salt;}syncStatus('Up to date with the gist.');}
+    }catch(e){syncStatus('Could not reach the gist ('+(e.message||'network')+'). Working from local copy.');}
+  }
+  document.getElementById('syncConnect').addEventListener('click',async function(){
+    var tok=document.getElementById('ghToken').value.trim(),gid=document.getElementById('ghGist').value.trim();
+    if(!tok){syncStatus('Paste a token first.');return;}
+    syncStatus('Connecting…');
+    try{
+      if(!gid){var enc=await encryptPayload();
+        var res=await fetch('https://api.github.com/gists',{method:'POST',headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({description:'Sami 90-day campaign progress (encrypted)',public:false,files:{'sami-campaign.json':{content:enc}}})});
+        if(!res.ok)throw new Error(res.status===401?'token rejected':res.status);var g=await res.json();gid=g.id;sync.owner=g.owner?g.owner.login:'';}
+      sync.token=tok;sync.gist=gid;await persist();
+      document.getElementById('ghToken').value='';document.getElementById('ghGist').value='';
+      renderSync();await pullNow();await pushNow();
+      if(mode==='memory')syncStatus('Connected for this session only — nowhere to keep the token here. Host the page or open it in a browser to keep sync on.');
+    }catch(e){syncStatus('Could not connect ('+(e.message||'network')+'). Check the token has Gist read/write and try again.');}
+  });
+  document.getElementById('syncNow').addEventListener('click',async function(){await pullNow();await pushNow();});
+  document.getElementById('syncDisconnect').addEventListener('click',async function(){
+    if(!confirm('Disconnect cloud sync? The gist and your local progress both stay as they are.'))return;
+    sync={token:'',gist:'',owner:''};await persist();renderSync();syncStatus('Sync off.');
+  });
+
+  /* ---------- export / import (encrypted files) ---------- */
+  document.getElementById('exportBtn').addEventListener('click',async function(){
+    var enc=await encryptPayload();var blob=new Blob([enc],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sami-campaign-backup-'+todayStr()+'.json';
+    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);setStatus('Encrypted backup exported.');
+  });
+  document.getElementById('importBtn').addEventListener('click',function(){document.getElementById('importFile').click();});
+  document.getElementById('importFile').addEventListener('change',function(e){
+    var f=e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();
+    rd.onload=async function(){
+      try{var o=JSON.parse(rd.result),incoming=null;
+        if(o&&o.ct){var r=await openBlob(o);if(!r)throw new Error('pin');incoming=r.payload.state;}
+        else if(o&&o.checks)incoming=o;else throw new Error('format');
+        if(!confirm('Replace current progress with this backup?'))return;
+        state=Object.assign(DEF(),incoming);state.last=null;renderAll();save();setStatus('Backup imported.');
+      }catch(err){setStatus(err.message==='pin'?'That backup was encrypted with a different PIN.':'That file isn\'t a campaign backup.');}
+      e.target.value='';
+    };rd.readAsText(f);
+  });
+
+  /* ---------- reset ---------- */
+  document.getElementById('resetAll').addEventListener('click',async function(){
+    if(!confirm('Reset all progress, tallies, and logged weeks? Your PIN and sync settings stay. This cannot be undone.'))return;
+    state=DEF();renderAll();save();
+  });
+
+  function renderAll(){renderConsole();renderChecks();renderWeeks();}
+  boot();
+})();
+</script>
+</body>
+</html>
