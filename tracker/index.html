@@ -728,6 +728,17 @@ Hi [Name], I'm IBM-certified on ACE V12 and CP4i Architect and previously ran th
 </div><!-- /wrap -->
 
 <script>
+/* ============================================================
+   ONE-TIME SETUP FOR MULTI-DEVICE:
+   Put your gist ID between the quotes below (it's shown in the
+   Cloud sync box once connected). Every device that opens this
+   page will then go straight to "Enter PIN" and load the latest
+   encrypted progress from that gist. Safe to commit: the gist
+   holds ciphertext only.
+   Alternative without editing: open the page as  ...?gist=YOUR_ID
+   ============================================================ */
+var BOOT_GIST='06bbd07b0c8556d7afad96dbf53723e3';
+
 (function(){
   var KEY='sami_campaign_v1',SKEY='sami_campaign_sync',ITER=300000;
   function DEF(){return {start:'2026-09-11',why:'',checks:{},daily:{},weeks:[],last:null};}
@@ -770,6 +781,19 @@ Hi [Name], I'm IBM-certified on ACE V12 and CP4i Architect and previously ran th
       return {payload:await decryptBlob(blob,k),key:k,salt:sb};
     }catch(e){return null;}
   }
+
+  /* ---------- remote blob fetch (read needs no token; the content is ciphertext) ---------- */
+  function bootGist(){var q='';try{q=new URLSearchParams(location.search).get('gist')||'';}catch(e){}return (BOOT_GIST||q||'').trim();}
+  async function fetchGistBlob(gid,tok){
+    try{
+      var h={'Accept':'application/vnd.github+json'};if(tok)h['Authorization']='Bearer '+tok;
+      var res=await fetch('https://api.github.com/gists/'+gid,{headers:h,cache:'no-store'});
+      if(!res.ok)return null;var g=await res.json();var f=g.files&&g.files['sami-campaign.json'];if(!f||!f.content)return null;
+      var blob=JSON.parse(f.content);if(!blob||!blob.ct)return null;
+      blob._owner=g.owner?g.owner.login:'';return blob;
+    }catch(e){return null;}
+  }
+  var pendingRemote=null,pendingRemoteP=null;
 
   /* ---------- storage tiers: Claude artifact storage -> browser localStorage -> memory ---------- */
   function hasLocal(){try{var k='__t';localStorage.setItem(k,'1');localStorage.removeItem(k);return true;}catch(e){return false;}}
@@ -821,10 +845,16 @@ Hi [Name], I'm IBM-certified on ACE V12 and CP4i Architect and previously ran th
         hideLock();afterUnlock(true);
       }else{
         L.btn.textContent='Checking…';
-        pin=v;var r=await openBlob(pendingBlob);
-        if(!r){pin=null;L.err.textContent='Wrong PIN.';L.btn.textContent='Unlock';L.btn.disabled=false;L.p1.value='';L.p1.focus();return;}
+        pin=v;var r=null,usedRemote=false;
+        /* the gist is the source of truth: if it is reachable, the PIN must open it; the local copy is only for offline use */
+        var rb=pendingRemote||(pendingRemoteP?await Promise.race([pendingRemoteP,new Promise(function(res){setTimeout(function(){res(null);},6000);})]):null);
+        if(rb){r=await openBlob(rb);if(r){usedRemote=true;pendingBlob=rb;}}
+        else if(pendingBlob){r=await openBlob(pendingBlob);}
+        if(!r){pin=null;L.err.textContent=rb?'Wrong PIN. (If you changed it on another device, use the new one.)':'Wrong PIN.';L.btn.textContent='Unlock';L.btn.disabled=false;L.p1.value='';L.p1.focus();return;}
         key=r.key;salt=r.salt;state=Object.assign(DEF(),r.payload.state||{});sync=Object.assign({token:'',gist:'',owner:''},r.payload.sync||{});
-        pendingBlob=null;hideLock();afterUnlock(false);
+        var gid=bootGist();if(gid&&!sync.gist)sync.gist=gid;if(pendingBlob&&pendingBlob._owner&&!sync.owner)sync.owner=pendingBlob._owner;
+        if(usedRemote||mode!=='memory')await persist();
+        pendingBlob=null;pendingRemote=null;hideLock();afterUnlock(false);
       }
     }catch(e){L.err.textContent='Something went wrong. Try again.';L.btn.disabled=false;}
   });
@@ -865,8 +895,17 @@ Hi [Name], I'm IBM-certified on ACE V12 and CP4i Architect and previously ran th
     var raw=await rawGet(KEY),blob=null,legacy=null;
     if(raw){try{var o=JSON.parse(raw);if(o&&o.ct)blob=o;else if(o&&o.checks)legacy=o;}catch(e){}}
     var ls=null,rs=await rawGet(SKEY);if(rs){try{ls=JSON.parse(rs);}catch(e){}}
-    if(blob){pendingBlob=blob;showLock('unlock');}
-    else{pendingLegacy={state:legacy,sync:ls};showLock('setup');}
+    var gid=bootGist();
+    if(gid){pendingRemoteP=fetchGistBlob(gid).then(function(r){pendingRemote=r;return r;});}
+    if(blob){pendingBlob=blob;showLock('unlock');return;}
+    if(gid){
+      L.t.textContent='Enter PIN';var r=await pendingRemoteP;
+      if(r){pendingBlob=r;showLock('unlock');return;}
+      pendingLegacy={state:legacy,sync:ls};showLock('setup');
+      L.m.textContent='Could not load the gist ('+gid+') right now, so this device is starting fresh. Check the connection or the gist ID, then reload to unlock with your existing PIN.';
+      return;
+    }
+    pendingLegacy={state:legacy,sync:ls};showLock('setup');
   }
 
   /* ---------- console ---------- */
@@ -973,7 +1012,9 @@ Hi [Name], I'm IBM-certified on ACE V12 and CP4i Architect and previously ran th
     var on=!!(sync.token&&sync.gist);
     document.getElementById('syncOff').style.display=on?'none':'';document.getElementById('syncOn').style.display=on?'':'none';
     if(on){var raw=sync.owner?('https://gist.githubusercontent.com/'+sync.owner+'/'+sync.gist+'/raw/sami-campaign.json'):'';
-      document.getElementById('syncInfo').innerHTML='Connected to gist <b>'+sync.gist+'</b>.'+(raw?'<br>Raw JSON (encrypted — safe to back up with an iOS Shortcut): <span style="word-break:break-all">'+raw+'</span>':'');}
+      var bg=bootGist();
+      document.getElementById('syncInfo').innerHTML='Connected to gist <b>'+sync.gist+'</b>.'+(raw?'<br>Raw JSON (encrypted — safe to back up with an iOS Shortcut): <span style="word-break:break-all">'+raw+'</span>':'')
+        +(bg===sync.gist?'<br>Other devices will open straight to the PIN screen and load from this gist.':'<br><b>To skip setup on other devices:</b> put <code>'+sync.gist+'</code> in the BOOT_GIST line at the top of the page\'s script and republish, or open the page as <span style="word-break:break-all">'+location.origin+location.pathname+'?gist='+sync.gist+'</span>.');}
   }
   var pushT=null;
   function schedulePush(){if(!(sync.token&&sync.gist))return;clearTimeout(pushT);pushT=setTimeout(pushNow,2000);}
